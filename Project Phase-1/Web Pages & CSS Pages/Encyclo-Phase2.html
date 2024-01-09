@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Your Project Title</title>
+    <style>
+        .error-message {
+            color: red;
+        }
+        body{background-image:url("../Pictures/bg2.jpg")}
+    </style>
+</head>
+<body>
+    <center><img src = "../Pictures/logoorg.png" height = "90" width = "90"><br>
+    <h1 style = "font-size:20px">Ocean Encyclopedia</h1><br><hr><br>
+    <h1>Registration Form</h1>
+    <p>Date and Time: <span id="datetime"></span></p>
+    
+    <form id="projectForm">
+        <label for="username">Username:</label>
+        <input type="text" id="username" name="username" >
+        <div id="username-error" class="error-message"></div><Br>
+
+        <label for="age">Age:</label>
+        <input type="number" id="age" name="age">
+        <div id="age-error" class="error-message"></div><br>
+
+        <label>Gender:</label>
+        <input type="radio" id="male" name="gender"> Male
+        <input type="radio" id="female" name="gender"> Female
+        <div id="gender-error" class="error-message"></div><br>
+
+        <label for="interests">Interests:</label>
+        <input type="checkbox" id="coding" name="interests"> Coding
+        <input type="checkbox" id="design" name="interests"> Design
+        <div id="interests-error" class="error-message"></div><br>
+
+    
+        <button type="button" onclick="validateForm()">Submit</button>
+
+    </form>
+
+
+
+    <textarea id="report" rows="4" cols="50" readonly></textarea>
+
+
+<script>
+    //MAJED
+    function validateForm() {
+        // Clear previous error messages
+        clearErrors();
+
+        // Validation criteria
+        var isValid = true;
+
+        isValid &= validateField("username", "Username cannot be empty");
+        isValid &= validateNumberField("age", "Please enter a valid age");
+        isValid &= validateGender("gender", "Please select a gender");
+        isValid &= validateInterests("interests", "Please select at least one interest");
+
+        // If all validations pass, perform calculations and display report
+        if (isValid) {
+            calculateAndDisplayReport();
+        }
+    }
+
+    function validateGender(name, errorMessage) {
+        var genderElements = document.getElementsByName(name);
+        var isChecked = false;
+
+        for (var i = 0; i < genderElements.length; i++) {
+            if (genderElements[i].checked) {
+                isChecked = true;
+                break;
+            }
+        }
+
+        if (!isChecked) {
+            displayError(name, errorMessage);
+            return false;
+        }
+
+        return true;
+    }
+
+    function validateInterests(name, errorMessage) {
+        var interestsElements = document.getElementsByName(name);
+        var isChecked = false;
+
+        for (var i = 0; i < interestsElements.length; i++) {
+            if (interestsElements[i].checked) {
+                isChecked = true;
+                break;
+            }
+        }
+
+        if (!isChecked) {
+            displayError(name, errorMessage);
+            return false;
+        }
+
+        return true;
+    }
+
+    function validateField(id, errorMessage) {
+        var value = document.getElementById(id).value.trim();
+        if (value === "") {
+            displayError(id, errorMessage);
+            return false;
+        }
+        return true;
+    }
+
+    function validateNumberField(id, errorMessage) {
+        var value = document.getElementById(id).value;
+        if (isNaN(value) || value === "") {
+            displayError(id, errorMessage);
+            return false;
+        }
+        return true;
+    }
+
+    function displayError(id, errorMessage) {
+        var errorDiv = document.getElementById(id + "-error");
+        errorDiv.innerHTML = errorMessage;
+    }
+
+    function clearErrors() {
+        var errorDivs = document.getElementsByClassName("error-message");
+        for (var i = 0; i < errorDivs.length; i++) {
+            errorDivs[i].innerHTML = "";
+        }
+    }
+    //MAJED
+
+    //yahya
+    function calculateAndDisplayReport() {
+        var report = "";
+
+        var age = parseInt(document.getElementById("age").value);
+
+        // Age-based calculation
+        if (!isNaN(age) && age > 0) {
+            var birthYear = new Date().getFullYear() - age;
+            report += "User was born in " + birthYear + "\n";
+        }
+
+        // Example: Concatenate values for demonstration
+        report = report + "Username: " + document.getElementById("username").value + "\n";
+        report = report + "Age: " + age + "\n";
+
+        // Display the report in the textarea
+        document.getElementById("report").value = report;
+    }
+    //yahya
+
+    //ABDALLAH
+    // Display date and time
+    function updateDateTime() {
+        var now = new Date();
+        document.getElementById("datetime").innerHTML = now.toLocaleString();
+    }
+
+    // Update date and time every second
+    setInterval(updateDateTime, 1000);
+
+    // Initial update
+    updateDateTime();
+    //ABDALLAH
+</script>
+</body>
+</html>
